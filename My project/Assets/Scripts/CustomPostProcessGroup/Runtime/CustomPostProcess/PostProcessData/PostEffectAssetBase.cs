@@ -5,9 +5,9 @@ using UnityEngine.Rendering.RenderGraphModule;
 namespace UnityEngine.Rendering.Universal
 {
     /// <summary>
-    /// ポストエフェクトのデータ定義。Record で RenderGraph にパスを登録する（仕様 5.3）
-    /// マスクは Shader 内でグローバル名を指定して参照する。Effect は maskProperties を持たない。
-    /// Material は本クラス内で Shader から生成・保持し、Feature の Dispose で解放する。
+    /// Post-effect data definition. Records passes into the RenderGraph via Record.
+    /// Masks are referenced by global name in the shader. Effect does not hold maskProperties.
+    /// Material is created and held in this class; released in Feature.Dispose.
     /// </summary>
     public abstract class PostEffectAssetBase : ScriptableObject
     {
@@ -20,7 +20,7 @@ namespace UnityEngine.Rendering.Universal
         public Shader Shader => shader;
 
         /// <summary>
-        /// Shader から生成した Material。未生成なら CreateEngineMaterial で作成して返す。
+        /// Material created from Shader. Creates via CreateEngineMaterial if not yet created.
         /// </summary>
         public void GetMaterial()
         {
@@ -29,7 +29,7 @@ namespace UnityEngine.Rendering.Universal
         }
 
         /// <summary>
-        /// 保持している Material を破棄する。Feature の Dispose から呼ぶ。
+        /// Destroys the held Material. Called from Feature.Dispose.
         /// </summary>
         public void ReleaseMaterial()
         {
@@ -41,7 +41,7 @@ namespace UnityEngine.Rendering.Universal
         }
 
         /// <summary>
-        /// 入力 sourceColor を加工し、出力の TextureHandle を返す
+        /// Processes input sourceColor and returns the output TextureHandle.
         /// </summary>
         public abstract void Record(RenderGraph rg, ContextContainer frameData, in PostEffectContext ctx);
     }

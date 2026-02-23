@@ -3,8 +3,8 @@ using UnityEngine.Rendering.RenderGraphModule;
 namespace UnityEngine.Rendering.Universal
 {
     /// <summary>
-    /// Pass→Effect の引数構造体（仕様 5.3）
-    /// マスクは Shader Global から取得する設計のため、ctx には含めない。
+    /// Argument struct passed from Pass to Effect.
+    /// Masks are read from Shader Globals, so they are not included in ctx.
     /// </summary>
     public struct PostEffectContext
     {

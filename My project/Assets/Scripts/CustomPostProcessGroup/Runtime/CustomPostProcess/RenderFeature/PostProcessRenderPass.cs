@@ -4,7 +4,7 @@ using UnityEngine.Rendering.RenderGraphModule;
 namespace UnityEngine.Rendering.Universal
 {
     /// <summary>
-    /// ポスト処理 Pass。effects を順次実行し、Swap で cameraColor を更新する（仕様 5.2）
+    /// Post-process pass. Executes effects in order and updates cameraColor via swap.
     /// </summary>
     public class PostProcessRenderPass : ScriptableRenderPass
     {

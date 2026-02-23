@@ -4,8 +4,8 @@ using UnityEngine.Rendering;
 namespace UnityEngine.Rendering.Universal
 {
     /// <summary>
-    /// ポスト処理 Feature。エフェクトリストを保持する（仕様 5.1）
-    /// Material は各 PostEffectAssetBase が保持し、Dispose で解放する。
+    /// Post-process feature. Holds the effect list.
+    /// Material is held by each PostEffectAssetBase and released in Dispose.
     /// </summary>
     public class PostProcessRendererFeature : ScriptableRendererFeature
     {
