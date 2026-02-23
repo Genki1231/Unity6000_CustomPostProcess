@@ -1,0 +1,9 @@
+{
+    "name": "custom_postprocess",
+    "displayName": "Custom PostProcess and MaskGenerator",
+    "version": "0.0.0",
+    "author": "aseakingski",
+    "unity": "6000.0",
+    "description": "Custom PostProcess and MaskGenerator is created by aseakingski.",
+    "dependencies": {}
+}
