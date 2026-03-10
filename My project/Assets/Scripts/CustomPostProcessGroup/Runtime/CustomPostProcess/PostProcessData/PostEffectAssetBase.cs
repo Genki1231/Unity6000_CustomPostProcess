@@ -2,22 +2,17 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
 
-namespace UnityEngine.Rendering.Universal
+namespace PostProcessEffects
 {
     /// <summary>
-    /// Post-effect data definition. Records passes into the RenderGraph via Record.
-    /// Masks are referenced by global name in the shader. Effect does not hold maskProperties.
-    /// Material is created and held in this class; released in Feature.Dispose.
+    /// Base PostProcessEffect Class.
     /// </summary>
     public abstract class PostEffectAssetBase : ScriptableObject
     {
-        [SerializeField] protected bool enabled = true;
-        [SerializeField] protected Shader shader;
+        public bool enabled = true;
+        public Shader shader;
 
         internal Material m_Material;
-
-        public virtual bool Enabled => enabled;
-        public Shader Shader => shader;
 
         /// <summary>
         /// Material created from Shader. Creates via CreateEngineMaterial if not yet created.

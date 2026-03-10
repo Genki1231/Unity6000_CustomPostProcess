@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
+using UnityEngine.Rendering.Universal;
 
-namespace UnityEngine.Rendering.Universal
+namespace PostProcessEffects
 {
     /// <summary>
     /// Post-process pass. Executes effects in order and updates cameraColor via swap.
@@ -44,7 +46,7 @@ namespace UnityEngine.Rendering.Universal
             for (int i = 0; i < m_Effects.Count; i++)
             {
                 PostEffectAssetBase effect = m_Effects[i];
-                if (effect == null || !effect.Enabled)
+                if (effect == null || !effect.enabled)
                     continue;
 
                 effect.GetMaterial();

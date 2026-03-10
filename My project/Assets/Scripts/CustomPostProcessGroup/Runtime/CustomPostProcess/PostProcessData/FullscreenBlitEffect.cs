@@ -1,12 +1,15 @@
+using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.RenderGraphModule.Util;
 
-namespace UnityEngine.Rendering.Universal
+namespace PostProcessEffects
 {
     /// <summary>
-    /// Simple fullscreen blit effect. Processes source with Material and outputs.
-    /// Reference mask by global texture name in the shader when using masks.
+    /// Refelence FullScreenEffect.
+    /// Use mask texture in MaskGeneratorRenderFeature.
     /// </summary>
+    [CreateAssetMenu(menuName = "PostProcessEffects/FullscreenBlitEffect")]
     public class FullscreenBlitEffect : PostEffectAssetBase
     {
         public override void Record(RenderGraph rg, ContextContainer frameData, in PostEffectContext ctx)

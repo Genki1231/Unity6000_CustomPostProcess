@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using UnityEngine;
 
-namespace UnityEngine.Rendering.Universal
+namespace PostProcessEffects
 {
     /// <summary>
     /// Post-process feature. Holds the effect list.
