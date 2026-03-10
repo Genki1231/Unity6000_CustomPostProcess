@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Serialization;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
-namespace UnityEngine.Rendering.Universal
+namespace MaskGenerator
 {
     /// <summary>
     /// Renders the specified layer and generates a mask texture.
@@ -33,9 +36,8 @@ namespace UnityEngine.Rendering.Universal
             
             if (m_material == null)
             {
-                if (!s_WarnedMaterialMissing.Contains(ctx.cameraId))
+                if (s_WarnedMaterialMissing.Add(ctx.cameraId))
                 {
-                    s_WarnedMaterialMissing.Add(ctx.cameraId);
                     Debug.LogWarning("[LayerMaskSource] Override material is null. Mask slot cleared.");
                 }
                 return;
@@ -43,9 +45,8 @@ namespace UnityEngine.Rendering.Universal
 
             if (!ctx.activeDepth.IsValid())
             {
-                if (!s_WarnedDepthMissing.Contains(ctx.cameraId))
+                if (s_WarnedDepthMissing.Add(ctx.cameraId))
                 {
-                    s_WarnedDepthMissing.Add(ctx.cameraId);
                     Debug.LogWarning("[LayerMaskSource] Depth not available. Mask slot cleared.");
                 }
                 return;
@@ -68,7 +69,7 @@ namespace UnityEngine.Rendering.Universal
             drawSettings.overrideMaterialPassIndex = 0;
 
             var rendererListParams = new RendererListParams(universalRenderingData.cullResults, drawSettings, filterSettings);
-            RendererListHandle listHandle = rg.CreateRendererList(rendererListParams);
+            var listHandle = rg.CreateRendererList(rendererListParams);
 
             const string passName = "LayerMaskSource";
             using (var builder = rg.AddRasterRenderPass<LayerMaskPassData>(passName, out var passData))

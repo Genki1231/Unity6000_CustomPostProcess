@@ -1,7 +1,9 @@
 using System;
+using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.Universal
+namespace MaskGenerator
 {
     /// <summary>
     /// Defines one mask output (RT + global publication).

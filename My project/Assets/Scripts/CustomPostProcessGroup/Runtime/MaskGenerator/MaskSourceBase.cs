@@ -1,7 +1,9 @@
 using System;
+using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
 
-namespace UnityEngine.Rendering.Universal
+namespace MaskGenerator
 {
     /// <summary>
     /// One unit of input (Stencil/Layer) to MaskSlot output. One source = one slot.

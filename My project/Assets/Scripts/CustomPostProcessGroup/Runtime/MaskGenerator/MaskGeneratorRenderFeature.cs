@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
-namespace UnityEngine.Rendering.Universal
+namespace MaskGenerator
 {
     /// <summary>
     /// Mask generation feature. Manages the pass and sources.
@@ -16,8 +19,10 @@ namespace UnityEngine.Rendering.Universal
 
         public override void Create()
         {
-            m_Pass = new MaskGeneratorRenderPass();
-            m_Pass.renderPassEvent = passEvent;
+            m_Pass = new MaskGeneratorRenderPass
+            {
+                renderPassEvent = passEvent
+            };
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -35,10 +40,9 @@ namespace UnityEngine.Rendering.Universal
         {
             if (sources != null)
             {
-                foreach (var source in sources)
+                foreach (var source in sources.Where(source => source?.Slot != null))
                 {
-                    if (source?.Slot != null)
-                        source.Slot.ReleaseRTHandle();
+                    source.Slot.ReleaseRTHandle();
                 }
             }
         }

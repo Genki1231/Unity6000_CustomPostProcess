@@ -1,6 +1,7 @@
+using UnityEngine;
 using UnityEngine.Rendering.RenderGraphModule;
 
-namespace UnityEngine.Rendering.Universal
+namespace MaskGenerator
 {
     /// <summary>
     /// Argument struct passed from Pass to Source.

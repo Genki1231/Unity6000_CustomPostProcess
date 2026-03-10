@@ -1,7 +1,11 @@
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.Universal
+namespace MaskGenerator
 {
     /// <summary>
     /// Mask generation pass. Processes sources in order, allocates/clears/draws slot RTs, and publishes them globally.
@@ -30,21 +34,20 @@ namespace UnityEngine.Rendering.Universal
 
             var cameraData = frameData.Get<UniversalCameraData>();
             var resourceData = frameData.Get<UniversalResourceData>();
-            Camera camera = cameraData.camera;
+            var camera = cameraData.camera;
 
-            RenderTextureDescriptor baseDesc = cameraData.cameraTargetDescriptor;
+            var baseDesc = cameraData.cameraTargetDescriptor;
             baseDesc.depthBufferBits = 0;
-            baseDesc.depthStencilFormat = Experimental.Rendering.GraphicsFormat.None;
+            baseDesc.depthStencilFormat = GraphicsFormat.None;
 
             m_SetPropertyIdsThisCamera.Clear();
 
-            for (int i = 0; i < m_Sources.Count; i++)
+            foreach (var source in m_Sources)
             {
-                MaskSourceBase source = m_Sources[i];
                 if (source == null || !source.Enabled || source.Slot == null)
                     continue;
 
-                MaskSlot slot = source.Slot;
+                var slot = source.Slot;
                 slot.EnsurePropertyId();
                 if (string.IsNullOrEmpty(slot.globalPropertyName))
                     continue;
@@ -53,7 +56,7 @@ namespace UnityEngine.Rendering.Universal
                 if (slot.rtHandle == null)
                     continue;
 
-                TextureHandle slotRT = renderGraph.ImportTexture(slot.rtHandle);
+                var slotRT = renderGraph.ImportTexture(slot.rtHandle);
 
                 var ctx = new MaskSourceContext
                 {
@@ -68,9 +71,8 @@ namespace UnityEngine.Rendering.Universal
 
                 if (m_WarnOnDuplicateGlobalProperty && m_SetPropertyIdsThisCamera.Contains(slot.globalPropertyId))
                 {
-                    if (!s_WarnedDuplicatePropertyIds.Contains(slot.globalPropertyId))
+                    if (s_WarnedDuplicatePropertyIds.Add(slot.globalPropertyId))
                     {
-                        s_WarnedDuplicatePropertyIds.Add(slot.globalPropertyId);
                         Debug.LogWarning($"[MaskGenerator] Duplicate global property name: '{slot.globalPropertyName}'. Later source wins.");
                     }
                 }
@@ -80,7 +82,7 @@ namespace UnityEngine.Rendering.Universal
             }
         }
 
-        private void EnsureSlotRT(MaskSlot slot, in RenderTextureDescriptor baseDesc)
+        private static void EnsureSlotRT(MaskSlot slot, in RenderTextureDescriptor baseDesc)
         {
             var desc = new RenderTextureDescriptor(baseDesc.width, baseDesc.height, slot.graphicsFormat, 0)
                 {
@@ -93,7 +95,7 @@ namespace UnityEngine.Rendering.Universal
             RenderingUtils.ReAllocateHandleIfNeeded(ref slot.rtHandle, desc, FilterMode.Bilinear, TextureWrapMode.Clamp, name: slot.globalPropertyName);
         }
 
-        private void PublishGlobal(RenderGraph renderGraph, MaskSlot slot, TextureHandle slotRT)
+        private static void PublishGlobal(RenderGraph renderGraph, MaskSlot slot, TextureHandle slotRT)
         {
             using (var builder = renderGraph.AddRasterRenderPass<PublishPassData>(k_PublishPassName, out var passData))
             {

@@ -1,8 +1,10 @@
 using System;
+using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
 
-namespace UnityEngine.Rendering.Universal
+namespace MaskGenerator
 {
     /// <summary>
     /// Writes the existing stencil result as a mask texture.
@@ -30,9 +32,8 @@ namespace UnityEngine.Rendering.Universal
 
             if (!ctx.activeDepth.IsValid())
             {
-                if (!s_WarnedDepthMissing.Contains(ctx.cameraId))
+                if (s_WarnedDepthMissing.Add(ctx.cameraId))
                 {
-                    s_WarnedDepthMissing.Add(ctx.cameraId);
                     Debug.LogWarning("[StencilMaskSource] Depth/Stencil not available. Mask slot cleared to zero.");
                 }
                 return;
