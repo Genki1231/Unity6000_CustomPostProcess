@@ -1,0 +1,18 @@
+{
+    "name": "Custom.PostProcess.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a11db3e47ff9f67429fc0f7f1d6d31df"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
